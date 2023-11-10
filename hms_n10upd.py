@@ -44,7 +44,7 @@ mydb = mysql.connector.connect(
     port=3306,
     user="root",
     password="",
-    database="hms_db"
+    database="hms"
 )
 
 # Create a cursor for executing SQL queries
@@ -451,6 +451,7 @@ def appointment_window():
         selected_slot = slot_var.get()
         appointment_date_str = date_entry.get_date()
         selected_reason = reasons_var.get()
+        patient_disease = disease_entry.get()
 
         # Convert appointment_date_str from '11/10/23' to '%Y-%m-%d' format
         appointment_date_obj = datetime.strptime(appointment_date_str, '%m/%d/%y')
@@ -474,7 +475,8 @@ def appointment_window():
                 "Appointment Date": formatted_appointment_date,
                 "Appointment Time": selected_slot,
                 "Reason": selected_reason,
-                "Amount": amount
+                "Amount": amount,
+                "Disease": patient_disease
             }    
 
             # Call the function to save the appointment to the database
@@ -517,6 +519,11 @@ def appointment_window():
     reasons_radio_medication = tk.Radiobutton(appointment_window, text="Medication", variable=reasons_var, value="Medication")
     reasons_radio_checkup.pack()
     reasons_radio_medication.pack()
+
+    diseases_label = tk.Label(appointment_window, text="Patient's Disease:")
+    diseases_label.pack()
+    diseases_entry = tk.Entry(appointment_window)
+    diseases_entry.pack()
 
     # Create a dictionary to store doctors and their available slots
     doctors = {
@@ -902,7 +909,7 @@ root.title("Hospital Management System")
 
 
 # Load and display the background image
-background_image = Image.open("D:/Nykhole's Files - Copy/[ALL] BSU - SECOND YEAR/FILES/ADV. COMPROG/HMS_DB/final.jpg")
+background_image = Image.open("D:\DELL E7450\Desktop\FInal Project\HMNAS-main\HMNAS-main\HMS1.jpg")
 background_image = background_image.resize((1365, 750), Image.Resampling.NEAREST)
 background_photo = ImageTk.PhotoImage(background_image)
 
